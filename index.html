@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struktur Panitia 17 Agustus - Desa Arang Sapat</title>
+    <!-- Font Serif Klasik untuk kesan Vintage & Elegan -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === TEMA VINTAGE KEMERDEKAAN === */
+        body {
+            background-color: #f4ecd8;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(200, 180, 150, 0.1) 0%, rgba(160, 140, 110, 0.4) 100%),
+                url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+            color: #3b2f2f;
+            font-family: 'Lora', serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* === 1. BENDERA SISI (PITA MERAH PUTIH KLASIK) === */
+        .side-flag {
+            position: absolute;
+            top: 0;
+            width: 35px;
+            height: 100%;
+            background: linear-gradient(to right, #8b0000 50%, #e0d5c1 50%);
+            opacity: 0.6;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .side-flag.left { left: 0; }
+        .side-flag.right { right: 0; transform: scaleX(-1); }
+
+        /* === 2. GAMBAR WATERMARK LATAR BELAKANG (DI DALAM FOLDER IMG) === */
+        .garuda-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;  
+            height: 500px; 
+            background-image: url('img/b225ca10-47d5-487e-ad78-dde8444fc431.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: invert(1) grayscale(1) opacity(0.18); 
+            mix-blend-mode: multiply;
+            z-index: 1; 
+            pointer-events: none;
+        }
+
+        .garuda-bw {
+            position: absolute;
+            bottom: -20px;
+            left: 50px;
+            width: 400px;
+            height: 450px;
+            background-image: url('img/39fd9c89-2659-4d4b-bb00-498eaaf85924.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom left;
+            filter: invert(1) grayscale(1) opacity(0.25);
+            mix-blend-mode: multiply;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .pemuda-bendera {
+            position: absolute;
+            bottom: -20px;
+            right: 50px;
+            width: 400px;
+            height: 450px;
+            background-image: url('img/d018b786-73f7-4021-b651-ea690fb60a0f.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom right;
+            filter: invert(1) grayscale(1) opacity(0.3);
+            mix-blend-mode: multiply;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Bingkai Ornamen Klasik */
+        .corner-ornament {
+            position: absolute; width: 150px; height: 150px;
+            border: 2px solid #8b0000; opacity: 0.2; pointer-events: none; z-index: 3;
+        }
+        .top-left { top: 30px; left: 60px; border-right: none; border-bottom: none; border-radius: 20px 0 0 0; }
+        .top-right { top: 30px; right: 60px; border-left: none; border-bottom: none; border-radius: 0 20px 0 0; }
+        .bottom-left { bottom: 30px; left: 60px; border-right: none; border-top: none; border-radius: 0 0 0 20px; }
+        .bottom-right { bottom: 30px; right: 60px; border-left: none; border-top: none; border-radius: 0 0 20px 0; }
+
+        /* === HEADER === */
+        .top-bar {
+            display: flex; justify-content: center; align-items: center;
+            padding: 40px 90px 20px; font-family: 'Playfair Display', serif;
+            letter-spacing: 2px; font-size: 1.2em; color: #8b0000;
+            text-transform: uppercase; position: relative; z-index: 15;
+        }
+        .top-bar .line {
+            flex-grow: 1; height: 1px; background: #8b0000; margin: 0 30px; opacity: 0.4;
+        }
+        .header-title {
+            display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center;
+        }
+        .header-subtitle {
+            font-family: 'Lora', serif; font-size: 0.6em; font-style: italic;
+            letter-spacing: 4px; color: #5a4a42;
+        }
+
+        /* === TOMBOL MUSIK VINTAGE === */
+        .music-btn {
+            position: absolute; right: 90px; background: transparent;
+            border: 1px solid #8b0000; color: #8b0000; padding: 8px 15px;
+            border-radius: 20px; font-family: 'Lora', serif; font-size: 0.7em;
+            cursor: pointer; transition: all 0.3s ease; letter-spacing: 1px;
+            z-index: 50;
+        }
+        .music-btn:hover, .music-btn.playing { background: #8b0000; color: #f4ecd8; }
+
+        /* === SLIDER AREA === */
+        .slider-wrapper {
+            flex-grow: 1; display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 10;
+        }
+        .slider-container {
+            width: 1000px; height: 550px; position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ANIMASI TRANSISI (EFEK PROYEKTOR KLASIK / FOKUS LENSA) */
+        .slide {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 60px;
+            opacity: 0; 
+            transform: scale(1.08); 
+            filter: blur(8px) sepia(0.8); 
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            pointer-events: none;
+        }
+        .slide.active { 
+            opacity: 1; 
+            transform: scale(1); 
+            filter: blur(0px) sepia(0); 
+            pointer-events: auto; 
+            z-index: 2;
+        }
+        .slide.prev { 
+            opacity: 0; 
+            transform: scale(0.92); 
+            filter: blur(8px) sepia(0.8); 
+            z-index: 1;
+        }
+
+        /* === BINGKAI FOTO VINTAGE === */
+        .card-container {
+            position: relative; padding: 10px; background: #fffdf8; border: 1px solid #d4c5b0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 0 20px rgba(200, 180, 150, 0.2);
+            border-radius: 4px; transform: rotate(-2deg); transition: transform 0.5s ease;
+        }
+        .card-container:hover { transform: rotate(0deg) scale(1.02); z-index: 10; }
+        .card-container::before {
+            content: ''; position: absolute; top: -10px; left: 50%;
+            transform: translateX(-50%) rotate(-3deg); width: 80px; height: 25px;
+            background: rgba(230, 220, 200, 0.6); border: 1px solid rgba(200, 180, 150, 0.3);
+            z-index: 5; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .card {
+            width: 300px; height: 420px; overflow: hidden; border: 1px solid #e0d5c1; position: relative;
+            filter: contrast(1.1) brightness(0.95) sepia(0.2); 
+        }
+        .card img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* === TEKS DETAIL === */
+        .details { width: 450px; display: flex; flex-direction: column; justify-content: center; z-index: 5; }
+        .tagline {
+            color: #8b0000; font-family: 'Lora', serif; font-style: italic; font-size: 1.1em;
+            margin-bottom: 15px; position: relative; display: inline-block;
+        }
+        .tagline::after { content: ''; display: block; width: 40px; height: 1px; background: #8b0000; margin-top: 8px; }
+        .details h1 {
+            font-family: 'Playfair Display', serif; color: #2a221f; font-size: 4.2em;
+            line-height: 1.1; margin: 0; font-weight: 700; text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+        .details .role {
+            font-family: 'Playfair Display', serif; color: #5a4a42; font-size: 1.6em;
+            font-weight: 400; margin-top: 15px; letter-spacing: 1px;
+        }
+
+        /* Cover Khusus */
+        .slide.cover .card-container { transform: rotate(2deg); }
+        .slide.cover .details h1 { font-size: 5em; color: #8b0000; }
+        .slide.cover .details .role { font-style: italic; }
+        .slide.cover .tagline::after { background: #5a4a42; }
+        .slide.cover .tagline { color: #5a4a42; }
+
+        /* === TOMBOL NAVIGASI === */
+        .nav-btn {
+            background: transparent; border: none; color: #8b0000; opacity: 0.3;
+            font-size: 3em; cursor: pointer; transition: all 0.3s ease; position: absolute;
+            z-index: 30; font-family: serif; padding: 20px;
+        }
+        .nav-btn:hover { opacity: 1; transform: scale(1.1); }
+        #prevBtn { left: 40px; }
+        #nextBtn { right: 40px; }
+
+        /* === PENGHITUNG SLIDE (Bottom) === */
+        .bottom-bar {
+            position: absolute; bottom: 30px; width: 100%; display: flex;
+            justify-content: center; align-items: center; z-index: 10;
+        }
+        .counter {
+            font-family: 'Playfair Display', serif; color: #5a4a42; font-size: 1.1em;
+            letter-spacing: 4px; display: flex; align-items: center; gap: 15px;
+        }
+        .counter::before, .counter::after {
+            content: ''; width: 30px; height: 1px; background: #8b0000; opacity: 0.5;
+        }
+
+        /* RESPONSIVE DESIGN UNTUK HP */
+        @media (max-width: 850px) {
+            .side-flag { width: 15px; } 
+            .garuda-center { width: 300px; height: 300px; opacity: 0.1; } 
+            .garuda-bw { width: 200px; height: 250px; opacity: 0.15; left: 10px; bottom: 0; }
+            .pemuda-bendera { width: 200px; height: 250px; opacity: 0.15; right: 10px; bottom: 0; }
+            
+            .corner-ornament { width: 60px; height: 60px; opacity: 0.15; }
+            .top-left { top: 15px; left: 30px; } .top-right { top: 15px; right: 30px; }
+            .bottom-left { bottom: 15px; left: 30px; } .bottom-right { bottom: 15px; right: 30px; }
+
+            .top-bar { padding: 30px 25px 10px; flex-direction: column; gap: 15px; font-size: 1em; }
+            .top-bar .line { display: none; }
+            .music-btn { position: relative; right: 0; padding: 5px 12px; font-size: 0.7em; }
+
+            .slider-container { width: 100%; height: auto; }
+            .slide { flex-direction: column; gap: 15px; padding-top: 10px; }
+            .card { width: 200px; height: 280px; }
+            .details { width: 85%; text-align: center; align-items: center; }
+            .tagline::after { margin-left: auto; margin-right: auto; }
+            .details h1 { font-size: 2.5em; }
+            .details .role { font-size: 1.2em; margin-top: 5px; }
+            .slide.cover .details h1 { font-size: 3em; }
+
+            .nav-btn { font-size: 2.5em; top: 35%; transform: translateY(-50%); opacity: 0.5; }
+            #prevBtn { left: 15px; } #nextBtn { right: 15px; }
+            .bottom-bar { bottom: 15px; }
+            .counter { font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="lagu-kemerdekaan.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="side-flag left"></div>
+    <div class="side-flag right"></div>
+
+    <!-- Background Watermark (Otomatis membaca folder img/) -->
+    <div class="garuda-center"></div>
+    <div class="garuda-bw"></div>
+    <div class="pemuda-bendera"></div>
+
+    <div class="corner-ornament top-left"></div>
+    <div class="corner-ornament top-right"></div>
+    <div class="corner-ornament bottom-left"></div>
+    <div class="corner-ornament bottom-right"></div>
+
+    <div class="top-bar">
+        <div class="line"></div>
+        <div class="header-title">
+            DIRGAHAYU REPUBLIK INDONESIA
+            <div class="header-subtitle">17 AGUSTUS 1945 - 2026</div>
+        </div>
+        <div class="line"></div>
+        <button id="musicToggle" class="music-btn">🎵 Mainkan Musik</button>
+    </div>
+
+    <div class="slider-wrapper">
+        <button id="prevBtn" class="nav-btn">&#10094;</button>
+        <div class="slider-container" id="sliderContainer"></div>
+        <button id="nextBtn" class="nav-btn">&#10095;</button>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="counter" id="slideCounter">I / XXVIII</div>
+    </div>
+
+    <script>
+        function toRoman(num) {
+            const roman = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
+            let str = '';
+            for (let i of Object.keys(roman)) {
+                let q = Math.floor(num / roman[i]);
+                num -= q * roman[i];
+                str += i.repeat(q);
+            }
+            return str;
+        }
+
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        let isPlaying = false;
+        bgMusic.volume = 0.7;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicToggle.innerHTML = '🔇 Musik Jeda';
+                musicToggle.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                let playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        musicToggle.innerHTML = '🎵 Musik Mengalun';
+                        musicToggle.classList.add('playing');
+                        isPlaying = true;
+                    }).catch(error => {
+                        alert("Harap klik kembali untuk memutar musik.");
+                    });
+                }
+            }
+        }
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // DAFTAR FOTO ANGGOTA DENGAN DIREKTORI FOLDER 'img/'
+        const dataPanitia = [
+            { isCover: true, nama: "HUT RI 81", jabatan: "Desa Arang Sapat", foto: "img/panitia.jpeg" },
+            { isCover: false, nama: "RAHMAT DEMTA", jabatan: "Ketua Katar", foto: "img/WhatsApp Image 2026-08-09 at 00.16.12.jpeg" },
+            { isCover: false, nama: "IVELI ADELIYO", jabatan: "Sekretaris Katar", foto: "img/WhatsApp Image 2026-08-09 at 00.16.10.jpeg" },
+            { isCover: false, nama: "X ONE", jabatan: "Ketua Panitia", foto: "img/WhatsApp Image 2026-08-09 at 00.16.20.jpeg" },
+            { isCover: false, nama: "ILHAM JAY", jabatan: "Wakil Ketupat I", foto: "img/WhatsApp Image 2026-08-09 at 00.16.13 (1).jpeg" },
+            { isCover: false, nama: "EKY KRISNO", jabatan: "Wakil Ketupat II", foto: "img/WhatsApp Image 2026-08-09 at 00.16.21.jpeg" },
+            { isCover: false, nama: "NOCIANI MEDISTI", jabatan: "Bendahara", foto: "img/WhatsApp Image 2026-08-09 at 00.16.11.jpeg" },
+            { isCover: false, nama: "DENA JULIA", jabatan: "Sekretaris I", foto: "img/WhatsApp Image 2026-08-09 at 00.16.16 (1).jpeg" },
+            { isCover: false, nama: "CHARLES GOLD", jabatan: "Sekretaris II", foto: "img/WhatsApp Image 2026-08-09 at 00.16.14 (1).jpeg" },
+            { isCover: false, nama: "ALVIN", jabatan: "PDD I", foto: "img/WhatsApp Image 2026-08-09 at 00.16.17 (2).jpeg" },
+            { isCover: false, nama: "JOKO", jabatan: "PDD II", foto: "img/WhatsApp Image 2026-08-09 at 00.16.15.jpeg" },
+            { isCover: false, nama: "ADITYA", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.12 (1).jpeg" },
+            { isCover: false, nama: "DEDEN", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.13.jpeg" },
+            { isCover: false, nama: "ARIF", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.14 (2).jpeg" },
+            { isCover: false, nama: "SISKA", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.15 (1).jpeg" },
+            { isCover: false, nama: "RAFLY", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.17.jpeg" },
+            { isCover: false, nama: "RABEL", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.18 (1).jpeg" },
+            { isCover: false, nama: "ESTI", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.18.jpeg" },
+            { isCover: false, nama: "ARGA", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.19 (1).jpeg" },
+            { isCover: false, nama: "DIEGO", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.19.jpeg" },
+            { isCover: false, nama: "IQBAL", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.20 (1).jpeg" },
+            { isCover: false, nama: "PEBI", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.22.jpeg" },
+            { isCover: false, nama: "ERNO", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.23.jpeg" },
+            { isCover: false, nama: "YOSEPTIO", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.16.jpeg" },
+            { isCover: false, nama: "TIYOKK", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.17 (1).jpeg" },
+            { isCover: false, nama: "PAREL", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.24.jpeg" },
+            { isCover: false, nama: "FAHRI", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.24 (1).jpeg" },
+            { isCover: false, nama: "RAFEL", jabatan: "Anggota", foto: "img/WhatsApp Image 2026-08-09 at 00.16.25.jpeg" }
+        ];
+
+        const container = document.getElementById('sliderContainer');
+        
+        dataPanitia.forEach((data, index) => {
+            const isCoverClass = data.isCover ? 'cover' : '';
+            const tagline = data.isCover ? 'Kepanitiaan Hari Kemerdekaan' : (index <= 10 ? 'Panitia Inti' : 'Anggota Panitia');
+            
+            const slideHTML = `
+                <div class="slide ${isCoverClass}" id="slide-${index}">
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="${data.foto}" alt="Foto ${data.nama}">
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="tagline">${tagline}</div>
+                        <h1>${data.nama}</h1>
+                        <div class="role">${data.jabatan}</div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += slideHTML;
+        });
+
+        let currentIndex = 0;
+        const totalSlides = dataPanitia.length;
+        const slides = document.querySelectorAll('.slide');
+        const slideCounter = document.getElementById('slideCounter');
+        
+        const slideDuration = 6500; 
+        let autoPlayInterval;
+
+        function updateSlider() {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i === currentIndex) {
+                    slide.classList.add('active');
+                } else if (i < currentIndex) {
+                    slide.classList.add('prev');
+                }
+            });
+            const currentRoman = toRoman(currentIndex + 1);
+            const totalRoman = toRoman(totalSlides);
+            slideCounter.innerHTML = `${currentRoman} / ${totalRoman}`;
+        }
+
+        function nextSlide() { currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0; updateSlider(); }
+        function prevSlide() { currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1; updateSlider(); }
+        function startAutoPlay() { autoPlayInterval = setInterval(nextSlide, slideDuration); }
+        function resetAutoPlay() { clearInterval(autoPlayInterval); startAutoPlay(); }
+
+        document.getElementById('nextBtn').addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
+        document.getElementById('prevBtn').addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        const sliderWrapper = document.querySelector('.slider-wrapper');
+        
+        function handleGesture() {
+            if (touchendX < touchstartX - 40) { nextSlide(); resetAutoPlay(); } 
+            if (touchendX > touchstartX + 40) { prevSlide(); resetAutoPlay(); } 
+        }
+        sliderWrapper.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+        sliderWrapper.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
+
+        updateSlider();
+        startAutoPlay();
+    </script>
+</body>
+</html>
